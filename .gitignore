@@ -1,0 +1,18 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Raw data (large files, re-downloadable via src/01_download_data.py)
+data/raw/*.csv
+data/raw/*.tif
+data/raw/*.tiff
+data/raw/*.nc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS junk
+.DS_Store
