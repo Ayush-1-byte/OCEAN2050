@@ -1,27 +1,33 @@
 """
 Module 1: Data Downloader
-Step 1 (today): download ONE species from OBIS to prove the pipeline works.
+Downloads occurrence records for all 5 target species from OBIS.
 """
 
 import requests
 import pandas as pd
 
-# OBIS REST API: search occurrence records by scientific name
 OBIS_BASE_URL = "https://api.obis.org/v3/occurrence"
 
+# Scientific names for our 5 target species
+SPECIES = {
+    "whale_shark": "Rhincodon typus",
+    "blue_whale": "Balaenoptera musculus",
+    "humpback_whale": "Megaptera novaeangliae",
+    "green_sea_turtle": "Chelonia mydas",
+    "manta_ray": "Mobula birostris",
+}
+
+
 def download_species_occurrences(scientific_name: str, size: int = 5000) -> pd.DataFrame:
-    """
-    Downloads occurrence records (sightings) for one species from OBIS.
-    Returns a DataFrame with columns like decimalLatitude, decimalLongitude, eventDate, etc.
-    """
+    """Downloads occurrence records (sightings) for one species from OBIS."""
     params = {
         "scientificname": scientific_name,
         "size": size
     }
     response = requests.get(OBIS_BASE_URL, params=params)
-    response.raise_for_status()  # crash loudly if the request failed
+    response.raise_for_status()
 
-    data = response.json()  
+    data = response.json()
     records = data["results"]
 
     print(f"Downloaded {len(records)} records for '{scientific_name}'")
@@ -29,10 +35,10 @@ def download_species_occurrences(scientific_name: str, size: int = 5000) -> pd.D
 
 
 if __name__ == "__main__":
-    # Step 1: just whale shark, just to prove this works
-    whale_shark_df = download_species_occurrences("Rhincodon typus")
+    for common_name, sci_name in SPECIES.items():
+        df = download_species_occurrences(sci_name)
+        output_path = f"data/raw/{common_name}_occurrences.csv"
+        df.to_csv(output_path, index=False)
+        print(f"  -> saved to {output_path}\n")
 
-    # Save to data/raw/ — untouched, exactly as OBIS gave it to us
-    whale_shark_df.to_csv("data/raw/whale_shark_occurrences.csv", index=False)
-
-    print(whale_shark_df[["decimalLatitude", "decimalLongitude", "eventDate"]].head())
+    print("Module 1 (species data) complete.")
