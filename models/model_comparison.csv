@@ -1,0 +1,6 @@
+species,n_presences,logreg_auc,rf_auc,best_model,best_auc
+whale_shark,1816,0.918,0.982,RandomForest,0.982
+blue_whale,1367,0.958,0.987,RandomForest,0.987
+humpback_whale,742,0.774,0.958,RandomForest,0.958
+green_sea_turtle,5,0.639,0.695,RandomForest,0.695
+manta_ray,683,0.88,0.98,RandomForest,0.98
