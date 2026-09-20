@@ -18,7 +18,7 @@ def make_suitability_map(species, period):
     df = pd.read_csv(f"data/processed/predictions/{species}_{period}.csv")
     suitable = df[df["suitability"] > 0.5]
 
-    m = folium.Map(location=[0, 0], zoom_start=2, tiles="CartoDB positron")
+    m = folium.Map(location=[0, 0], zoom_start=2, tiles="OpenStreetMap")
 
     # Plotting every point can be slow for large datasets -- sample if huge
     plot_df = suitable.sample(n=min(len(suitable), 3000), random_state=42)
