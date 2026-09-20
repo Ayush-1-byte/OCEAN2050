@@ -59,30 +59,39 @@ Python, machine learning, GIS, and climate data analysis.
 
 ## Use of AI
 
-I used Claude (Anthropic) as a learning aid and pair-programming assistant
-throughout this project, in a similar way to how many developers now use AI
-tools professionally. Specifically:
+Going into this project, I already had a working foundation in Python,
+pandas, and basic machine learning concepts from earlier coursework and
+personal projects — I wasn't starting from zero on the fundamentals covered
+in this project's own learning roadmap. I used Claude (Anthropic) as a
+learning aid and pair-programming assistant on top of that foundation,
+similar to how many developers now use AI tools professionally.
+
+Specifically:
 
 - **Guidance and sequencing**: Claude helped me break the project down into
   the module-by-module structure above, and walked me through each step in
   order rather than giving me a finished solution upfront.
 - **Code**: Claude wrote initial drafts of the pipeline scripts, which I
-  then typed into my own IDE, ran, and iterated on myself.
+  then typed into my own IDE, read, understood, ran, and modified myself —
+  including changes to file paths, feature choices, and thresholds based on
+  what I saw in my own results.
 - **Debugging**: A significant part of building this project was fixing real
   errors — working directory issues, an empty `.gitignore`, a broken map
   tile provider, and the green sea turtle sample-size collapse in Module 3.
-  In each case, I ran the code, hit the actual error, and worked through the
-  cause with Claude's help rather than just being handed a fix.
+  In each case, I ran the code, read the actual error message myself, and
+  worked through the cause with Claude's help rather than being handed a fix
+  with no understanding of why it worked.
 - **Explanations**: after each module, Claude explained *why* the code
   worked the way it did (e.g. why pseudo-absences are needed, why
-  `month_sin`/`month_cos` exist, why cross-validation matters) so I could
-  understand the underlying concepts, not just copy code.
+  `month_sin`/`month_cos` exist, why cross-validation matters), and I can
+  explain each of these concepts myself, not just point at code that uses them.
 - **My own contributions**: I set up and managed the development environment
   (PyCharm, virtual environment, Git/GitHub) myself, ran and tested every
-  script, made the calls on how to handle real issues that came up (e.g.
+  script, diagnosed real bugs by reading tracebacks myself before asking for
+  help, made the calls on how to handle real issues that came up (e.g.
   choosing to document the green sea turtle limitation rather than
   engineering around it), and interpreted the final biological/ecological
-  results.
+  results myself.
 
 I'm disclosing this openly because I believe it's important to be honest
 about how AI tools were used in producing this work, and because I think
