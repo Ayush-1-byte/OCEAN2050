@@ -56,3 +56,56 @@ streamlit run app.py
 Built by Ayush as part of an independent research project for college
 applications, following a self-directed 12-month learning roadmap covering
 Python, machine learning, GIS, and climate data analysis.
+
+## Use of AI
+
+I used Claude (Anthropic) as a learning aid and pair-programming assistant
+throughout this project, in a similar way to how many developers now use AI
+tools professionally. Specifically:
+
+- **Guidance and sequencing**: Claude helped me break the project down into
+  the module-by-module structure above, and walked me through each step in
+  order rather than giving me a finished solution upfront.
+- **Code**: Claude wrote initial drafts of the pipeline scripts, which I
+  then typed into my own IDE, ran, and iterated on myself.
+- **Debugging**: A significant part of building this project was fixing real
+  errors — working directory issues, an empty `.gitignore`, a broken map
+  tile provider, and the green sea turtle sample-size collapse in Module 3.
+  In each case, I ran the code, hit the actual error, and worked through the
+  cause with Claude's help rather than just being handed a fix.
+- **Explanations**: after each module, Claude explained *why* the code
+  worked the way it did (e.g. why pseudo-absences are needed, why
+  `month_sin`/`month_cos` exist, why cross-validation matters) so I could
+  understand the underlying concepts, not just copy code.
+- **My own contributions**: I set up and managed the development environment
+  (PyCharm, virtual environment, Git/GitHub) myself, ran and tested every
+  script, made the calls on how to handle real issues that came up (e.g.
+  choosing to document the green sea turtle limitation rather than
+  engineering around it), and interpreted the final biological/ecological
+  results.
+
+I'm disclosing this openly because I believe it's important to be honest
+about how AI tools were used in producing this work, and because I think
+the process of learning *with* AI — debugging real errors, asking why
+something works, and making my own judgment calls on ambiguous results —
+was itself a core part of what I learned from this project.
+
+## Future Improvements
+
+Each limitation above has a concrete path to being addressed in a future
+version of this project:
+
+| Limitation | Why it happened | How to improve it |
+|---|---|---|
+| Green sea turtle model unusable (149 → 5 records) | Coastal species' GPS points landed on "land" pixels in the coarse global SST grid during nearest-neighbor extraction | Use a higher-resolution coastal SST product, or search a small radius of nearby ocean pixels instead of only the single nearest one, before falling back to dropping the point |
+| Single-scenario projections (SSP2-4.5 only) | Only one climate pathway was downloaded to keep the project scoped | Download and compare SSP1-2.6 (optimistic) and SSP5-8.5 (severe) to show a *range* of possible futures rather than one point estimate — this is standard practice in real climate impact papers |
+| Temperature-only habitat model | Simplest environmental variable to start with; other layers add real complexity | Add salinity, pH, chlorophyll (primary productivity/food proxy), and dissolved oxygen from Bio-ORACLE — all downloadable via the same ERDDAP pipeline already built |
+| Annual-mean SST, fixed mid-year month | Bio-ORACLE's decadal layers are annual aggregates, not monthly | Use monthly climatology layers if available, so `month_sin`/`month_cos` reflect real seasonal temperature cycles instead of a constant |
+| Random Forest only compared to Logistic Regression | Kept the model comparison simple for the first working version | Try gradient boosting (XGBoost/LightGBM) or MaxEnt (the field-standard algorithm for species distribution modeling with presence-only data) |
+| Pseudo-absences are uniformly random across the globe | Simplest way to generate negative examples | Restrict pseudo-absence sampling to a plausible "background" region per species (e.g. within a few hundred km of known sightings) — random global absences can make the classification problem artificially easy, inflating AUC |
+| Coarse downsampled prediction grid (every 10th pixel) | Kept Module 6 fast enough to run on a laptop | Run full-resolution prediction in chunks/tiles (as the original guide warns is necessary) for a production-quality map, rather than a laptop-friendly demo |
+| No uncertainty quantification | Out of scope for first version | Report prediction intervals or model agreement (e.g. how much LogReg and Random Forest disagree) alongside the point predictions, so refugia claims come with a confidence level |
+
+These are presented as a roadmap rather than after-the-fact excuses — each
+one is something I understood the cause of at the time (see the module-by-module
+build notes above) and consciously chose to defer rather than being unaware of.
